@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CreateTareaComponent } from './components/create-tarea/create-tarea.component';
 import { ListTareaComponent } from './components/list-tarea/list-tarea.component';
+
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -14,10 +21,18 @@ import { ListTareaComponent } from './components/list-tarea/list-tarea.component
     CreateTareaComponent,
     ListTareaComponent
   ],
+
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
+    ButtonModule,
+    InputTextModule,
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })

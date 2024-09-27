@@ -14,12 +14,12 @@
             <button class="btn btn-success me-3" type="submit">Buscar</button>
           </form> -->
           <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-success" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="Buscar Tareas">
+            <button class="btn btn-success" type="submit">Buscar</button>
           </form>
         </div>
         <div class="col-4 text-end">
-          <button class="btn btn-dark " routerLink="/createTarea">Agregar</button>
+          <button class="btn btn-warning " routerLink="/createTarea">Agregar</button>
         </div>
       </div>
 
@@ -34,13 +34,14 @@
       </div>
 
       <!-- ------------------------- card de las tareas *****ARREGLAR****-------------------------- -->
-      <div class="card mt-1" *ngIf="tarea.length > -1">
+      <div class="card mt-1 shadow bg-body rounded" *ngIf="tarea.length > -1">
+
         <div class="card-header d-flex justify-content-between align-items-center bg-dark text-white">
           <h5 class="m-0">1.</h5>
           <h6 class="m-0">Fecha: año-dia-mes</h6>
           <input class="form-check-input" type="checkbox" id="checkbox">
-
         </div>
+
         <div class="card-body">
           <h5 class="card-title">Nombre tarea:</h5>
           <p class="card-text">hacer oficio en la ofina.</p>

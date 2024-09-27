@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+//Impoorta el Toastr para los mensajes
+/* @import 'ngx-toastr/toastr'; */
+
+
+body {
+  background: #16222A;  
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A);
+  background: linear-gradient(to right, #3A6073, #16222A);
+
+}
+

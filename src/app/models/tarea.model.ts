@@ -3,7 +3,7 @@ export interface Habilidad {
 }
 
 export interface Persona {
-  nombreCompleto: string;
+  nombre: string;
   edad: number;
   habilidades: Habilidad[];
 }

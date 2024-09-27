@@ -14,6 +14,9 @@ import { ListTareaComponent } from './components/list-tarea/list-tarea.component
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
+// Componente Standalone
+import { PersonaComponent } from "./persona/persona.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +34,8 @@ import { InputTextModule } from 'primeng/inputtext';
     BrowserAnimationsModule,
     ButtonModule,
     InputTextModule,
-  ],
+    PersonaComponent
+],
 
   providers: [],
   bootstrap: [AppComponent]

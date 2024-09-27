@@ -1,25 +1,27 @@
 <div class="container mt-4">
   <div class="card">
+
+    <div class="col-12 text-start mb-3 card-header">
+      <span class="h3">Listado de Tareas</span>
+    </div>
+
     <div class="card-body ">
-
-      <div class="col-12 text-start mb-3">
-        <span class="h3">Listado</span>
-      </div>
-
-      <div class="row">
-        <div class="col-8 text-start">
+      <div class="row ">
+        <div class="col-8 text-start ">
           <!-- <form class="d-flex" role="search" (ngSubmit)="filtrarTareas()">
             <input class="form-control me-2" type="text" placeholder="Nombre de la tarea" name="filtroTexto"
               [(ngModel)]="filtroTexto" (click)="resetearFormulario()">
             <button class="btn btn-success me-3" type="submit">Buscar</button>
           </form> -->
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Buscar Tareas">
-            <button class="btn btn-success" type="submit">Buscar</button>
+          <form class="d-flex" role="search">
+            <div class="input-group">
+              <input class="form-control me-2" type="search" placeholder="Buscar Tareas">
+              <button class="btn btn-success" type="submit"><i class='bx bx-search-alt fs-4'></i></button>
+            </div>
           </form>
         </div>
         <div class="col-4 text-end">
-          <button class="btn btn-warning " routerLink="/createTarea">Agregar</button>
+          <button class="btn btn-warning fw-bold " routerLink="/createTarea">Agregar</button>
         </div>
       </div>
 

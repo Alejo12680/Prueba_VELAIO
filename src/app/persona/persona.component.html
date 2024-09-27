@@ -1,0 +1,55 @@
+<form [formGroup]="formCreaPersona">
+  <div class="text-start mb-3 d-flex justify-content-between ">
+    <h6>Personas Asociadas:</h6>
+    <button class="btn btn-success btn-sm rounded-pill pe-3 ps-3" (click)="agregarPersona()">Añadir</button>
+  </div>
+
+  <div class="input-group flex-nowrap mb-2">
+    <span class="input-group-text bg-primary-subtle fw-bold" id="addon-wrapping">Nombre: </span>
+    <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="Nombre"
+      aria-describedby="addon-wrapping" formControlName="nombrePersona">
+  </div>
+
+  <h6 *ngIf="formCreaPersona.get('nombrePersona')?.invalid && formCreaPersona.get('nombrePersona')?.touched"
+    class="mb-3">
+    <span class="badge text-bg-danger">Digita minimo 5 caracteres</span>
+  </h6>
+
+  <div class="input-group flex-nowrap mb-2">
+    <span class="input-group-text bg-primary-subtle fw-bold" id="addon-wrapping">Edad: </span>
+    <input type="number" class="form-control" placeholder="Edad" aria-label="Edad" aria-describedby="addon-wrapping"
+      formControlName="edadPersona">
+  </div>
+
+  <h6 *ngIf="formCreaPersona.get('edadPersona')?.invalid && formCreaPersona.get('edadPersona')?.touched" class="mb-3">
+    <span class="badge text-bg-danger">Digita mayor de 18 años</span>
+  </h6>
+
+  <div class="input-group flex-nowrap mb-2">
+    <span class="input-group-text bg-primary-subtle fw-bold" id="addon-wrapping">Habilidad: </span>
+    <input type="text" class="form-control" placeholder="Habilidades" aria-label="Habilidades"
+      aria-describedby="addon-wrapping" formControlName="habilidades">
+    <button type="button" class="btn btn-outline-success" (click)="anadirHabilidad()">
+      <i class='bx bx-plus-circle fs-4'></i>
+    </button>
+  </div>
+
+  <h6 *ngIf="formCreaPersona.get('habilidades')?.invalid && formCreaPersona.get('habilidades')?.touched">
+    <span class="badge text-bg-danger">Habilidad Obligatoria</span>
+  </h6>
+
+  <!-- -------------------- seccion de listado habilidades --------------------- -->
+  <ol class="list-group list-group-numbered">
+    <li class="list-group-item d-flex justify-content-between align-items-start"
+      *ngFor="let habilidad of listaHabilidades; let i = index">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold"> {{habilidad}} </div>
+      </div>
+      <div>
+        <button type="button" class="border-0 bg-transparent" (click)="eliminarHabilidad(i)">
+          <i class='bx bxs-trash fs-4 text-danger'></i>
+        </button>
+      </div>
+    </li>
+  </ol>
+</form>

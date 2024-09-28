@@ -10,6 +10,7 @@ import { Tarea } from '../../models/tarea.model';
 export class ListTareaComponent {
 
   public tareas: Tarea[] = [];
+  public textoBusqueda: string = '';
 
   constructor(private tareasService: TareasService) { }
 
@@ -23,5 +24,15 @@ export class ListTareaComponent {
     // Inicializar con todas las tareas
     this.tareas = this.tareasService.listarTareas();
   }
-  
+
+  // Método que se llama al buscar
+  buscarTareas() {
+    this.tareasService.buscarTareas(this.textoBusqueda);
+  }
+
+  resetearFormulario() {
+    this.textoBusqueda = '';
+    this.tareasService.mostrarTodasLasTareas();
+  }
+
 }

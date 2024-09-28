@@ -13,16 +13,6 @@ export class TareasService {
 
   constructor() { }
 
-  // Variables en las que se suscribe y se hace llamado del observable.
-  private filtroTextoSubject = new BehaviorSubject<string>('');
-  filtroTexto$ = this.filtroTextoSubject.asObservable();
-
-  // Servicio que transmite el observable, para el buscador del componente, este es un observable que suscribe el componente que necesite la informacion y haciendolo reactivo.
-  setFiltroTexto(texto: string) {
-    this.filtroTextoSubject.next(texto);
-  }
-  // ******************************************************************
-
   agregarTarea(tarea: Tarea) {
     this.tareas.push(tarea);
 
@@ -38,13 +28,20 @@ export class TareasService {
   filtrarTareas(estado: boolean) {
     const tareasFiltradas = this.tareas.filter(tareas => tareas.checked === estado);
 
-     // Emitir tareas filtradas
+    // Emitir tareas filtradas
     this.tareasFiltradasSubject.next(tareasFiltradas);
   }
 
   mostrarTodasLasTareas() {
     // Emitir todas las tareas
     this.tareasFiltradasSubject.next(this.tareas);
+  }
+
+  buscarTareas(textoBusqueda: string) {
+    const tareasFiltradas = this.tareas.filter(tarea =>
+      tarea.tarea.toLowerCase().includes(textoBusqueda.toLowerCase())
+    );
+    this.tareasFiltradasSubject.next(tareasFiltradas); // Emitir las tareas filtradas
   }
 
 }

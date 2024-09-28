@@ -38,15 +38,21 @@
               </div>
 
               <h6 *ngIf="formCreateTarea.get('fechaLimite')?.invalid && formCreateTarea.get('fechaLimite')?.touched">
-                <span class="badge text-bg-danger">Fecha Obligatorio</span>
+                <span class="badge text-bg-danger" *ngIf="formCreateTarea.get('fechaLimite')?.errors?.['required']">
+                  Fecha Obligatoria
+                </span>
+                <span class="badge text-bg-danger" *ngIf="formCreateTarea.get('fechaLimite')?.errors?.['fechaInvalida']">
+                  La fecha debe ser superior a la actual
+                </span>
               </h6>
+
             </div>
 
             <div class="row mt-3">
 
               <div class="card p-0">
                 <div class="card-body">
-                  <!-- ------------------------ formulario de persona ------------------------ -->
+                  <!-- ------------------------ formulario de persona standalone------------------------ -->
                   <app-persona></app-persona>
 
                 </div>
@@ -56,13 +62,16 @@
             <div class="row mt-3">
               <!-- -------------------- seccion de lista persona --------------------- -->
               <ol class="list-group list-group-numbered p-0">
-                <li class="list-group-item d-flex justify-content-between align-items-start ngfo" *ngFor="let persona of listaPersonas; let i = index">
+                <li class="list-group-item d-flex justify-content-between align-items-start ngfo"
+                  *ngFor="let persona of listaPersonas; let i = index">
                   <div class="ms-2 me-auto">
                     <div class="fw-bold"> {{persona.nombre}} {{persona.edad}} años</div>
-                    {{persona.habilidades}}
+                    <div class="text-start">{{persona.habilidades}}</div>
                   </div>
                   <div>
-                    <i class='bx bxs-trash fs-4 text-danger'></i>
+                    <button type="button" class="border-0 bg-transparent" (click)="eliminarPersona(i)">
+                      <i class='bx bxs-trash fs-4 text-danger'></i>
+                    </button>
                   </div>
                 </li>
               </ol>

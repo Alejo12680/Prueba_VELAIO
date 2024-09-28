@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Tarea } from '../models/tarea.model';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { Tarea } from '../models/tarea.model';
 export class TareasService {
 
   private tareas: Tarea[] = [];
+  private tareasFiltradasSubject = new BehaviorSubject<Tarea[]>([]);
+  tareasFiltradas$ = this.tareasFiltradasSubject.asObservable();
 
   constructor() { }
 
@@ -23,23 +25,26 @@ export class TareasService {
 
   agregarTarea(tarea: Tarea) {
     this.tareas.push(tarea);
+
+    // Emitir todas las tareas al agregar
+    this.tareasFiltradasSubject.next(this.tareas);
   }
 
   listarTareas(): Tarea[] {
-    return this.tareas;
+    return [...this.tareas];
   }
 
   // Filtrar por estado
-  /* filtrarTareas(estado: 'pendiente' | 'completada'): Tarea[] {
-    return this.tareas.filter(tareas => tareas.estado === estado);
-  } */
+  filtrarTareas(estado: boolean) {
+    const tareasFiltradas = this.tareas.filter(tareas => tareas.checked === estado);
 
-  // Marcar tarea como completada
-  /* completarTarea(tarea: Tarea) {
-    const index = this.tareas.indexOf(tarea);
-    if (index !== -1) {
-      this.tareas[index].estado = 'completada';
-    }
-  } */
+     // Emitir tareas filtradas
+    this.tareasFiltradasSubject.next(tareasFiltradas);
+  }
+
+  mostrarTodasLasTareas() {
+    // Emitir todas las tareas
+    this.tareasFiltradasSubject.next(this.tareas);
+  }
 
 }

@@ -9,7 +9,7 @@ import { CreateTareaComponent } from '../components/create-tarea/create-tarea.co
 @Component({
   selector: 'app-persona',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, BrowserModule, AppRoutingModule ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, BrowserModule, AppRoutingModule],
   templateUrl: './persona.component.html',
   styleUrls: ['./persona.component.scss']
 })
@@ -31,7 +31,7 @@ export class PersonaComponent {
   setFormPersona() {
     this.formCreaPersona = this.formBuilder.group({
       nombrePersona: ['', [Validators.required, Validators.minLength(5)]],
-      edadPersona: ['', [Validators.required, Validators.min(19)]],
+      edadPersona: ['', [Validators.required, Validators.min(19), Validators.max(99)]],
       habilidades: ['', Validators.required],
     })
   }
@@ -44,30 +44,51 @@ export class PersonaComponent {
         this.listaHabilidades.push(habilidad);
 
       } else {
-        this.toastr.error('Habilidad ya existe, ingrese otra por favor', 'Error en la Peticion', {timeOut: 3000});
+        this.toastr.error('Habilidad ya existe, ingrese otra por favor', 'Error en la Peticion', { timeOut: 3000 });
       }
-
     }
   }
 
-  eliminarHabilidad(valor: number) {
-    console.log(valor);
+  eliminarHabilidad(indice: number) {
+    this.listaHabilidades.splice(indice, 1);
+  }
 
-    const index = this.listaHabilidades.indexOf(valor);
-    if (index !== -1) {
-      this.listaHabilidades.splice(index, 1);
-    }
+  existePersona(nombre: string): boolean {
+    return this.componenteCrtTarea.listaPersonas.some(persona => persona.nombre.toLowerCase().trim() === nombre.toLowerCase().trim());
   }
 
   agregarPersona() {
-    if (this.formCreaPersona.status === 'VALID' ) {
-      this.componenteCrtTarea.listaPersonas.push({nombre: this.formCreaPersona.value.nombrePersona, edad: this.formCreaPersona.value.edadPersona, habilidades: this.listaHabilidades})
-      this.componenteCrtTarea.validatorPersona = true;
+    let nombrePersona = this.formCreaPersona.value.nombrePersona;
+
+    if (this.formCreaPersona.status === 'VALID' && this.listaHabilidades.length > 0) {
+
+      if (!this.existePersona(nombrePersona)) {
+        // Añade persona al array de personas
+        this.componenteCrtTarea.listaPersonas.unshift({ nombre: this.formCreaPersona.value.nombrePersona, edad: this.formCreaPersona.value.edadPersona, habilidades: this.listaHabilidades });
+
+        this.formCreaPersona.reset();
+        this.listaHabilidades = [];
+        this.componenteCrtTarea.validatorPersona = true;
+
+      } else {
+        this.toastr.error('Esta persona ya existe en la lista', 'Error', { timeOut: 3000 });
+      }
 
     } else {
 
+      if (this.listaHabilidades.length === 0) {
+        this.toastr.error('Se debe tener al menos una Habilidad', 'Error en la Peticion', { timeOut: 3000 });
+      }
+
+      if (this.formCreaPersona.status === 'INVALID') {
+        this.toastr.error('Todos los campos son Obligatorios', 'Error en la Peticion', { timeOut: 3000 });
+      }
+
+      if (nombrePersona === nombrePersona) {
+        this.toastr.error('No se Puede Agregar a la misma Persona', 'Error en la Peticion', { timeOut: 3000 });
+      }
+
       this.formCreaPersona.markAllAsTouched();
-      this.toastr.error('Todos los campos son Obligatorios', 'Error en la Peticion', {timeOut: 3000});
     }
   }
 

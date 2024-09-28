@@ -9,8 +9,8 @@ export interface Persona {
 }
 
 export interface Tarea {
-  nombre: string;
+  tarea: string;
   fechaLimite: Date;
-  completada: boolean;
+  checked?: boolean;
   personas: Persona[];
 }

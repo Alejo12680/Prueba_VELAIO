@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TareasService } from '../../services/tareas.service';
@@ -33,33 +33,59 @@ export class CreateTareaComponent {
   setFormTarea() {
     this.formCreateTarea = this.formBuilder.group({
       tarea: ['', [Validators.required, Validators.minLength(4)]],
-      fechaLimite: ['', Validators.required],
+      fechaLimite: ['', [Validators.required, this.fechaActualValidator]],
     })
   }
 
+  fechaActualValidator(control: any) {
+    const fechaSeleccionada = new Date(control.value);
+    const fechaActual = new Date();
+
+    // Comprobamos si el valor es una fecha válida
+    if (isNaN(fechaSeleccionada.getTime())) {
+      return null; // Si no es una fecha válida, no hay error
+    }
+
+    // Establecer horas a cero para comparación solo de fecha
+    fechaActual.setHours(0, 0, 0, 0);
+    fechaSeleccionada.setHours(0, 0, 0, 0);
+
+    // Comparamos las fechas
+    return fechaSeleccionada >= fechaActual ? null : { fechaInvalida: true };
+  }
+
+  eliminarPersona(indice: number) {
+    this.listaPersonas.splice(indice, 1);
+  }
 
   agregarTarea() {
-    this.submitted = false;
-
     if (this.formCreateTarea.status === 'VALID' && this.validatorPersona === true) {
 
-      this.tareasService.agregarTarea(this.formCreateTarea.value);
-      this.formCreateTarea.reset();
-      this.toastr.success('Tarea Registrada con Exito', 'Se agrego una tarea');
-      this.loading = true;
+      let estructura = {
+        "tarea": this.formCreateTarea.value.tarea,
+        "fechaLimite": this.formCreateTarea.value.fechaLimite,
+        "checked": false,
+        "personas": this.listaPersonas
+      }
 
-      this.router.navigate(['../list-tarea/list-tarea.component.html'])
+      // Servicio Angular
+      this.tareasService.agregarTarea(estructura);
+
+      this.loading = true;
+      this.formCreateTarea.reset();
+      this.toastr.success('Tarea Registrada con Exito', 'Se agrego una tarea', {timeOut: 2000});
+      this.router.navigate(['../list-tarea/list-tarea.component.html']);
 
     } else {
-      this.submitted = true;
-      this.formCreateTarea.markAllAsTouched();
-      /* console.log(this.formCreateTarea.status); */
-      /* this.toastr.error('Error en la Peticion', Error.error); */
-      this.toastr.error('Todos los campos son Obligatorios', 'Error en la Peticion', {timeOut: 3000});
+      if (this.formCreateTarea.status === 'INVALID') {
+        this.toastr.error('Todos los campos son Obligatorios', 'Error en la Peticion', {timeOut: 3000});
+      }
 
       if (this.validatorPersona === false) {
         this.toastr.error('Agregar una Perosona es Obligatorio', 'Error en la Peticion', {timeOut: 3000});
       }
+
+      this.formCreateTarea.markAllAsTouched();
     }
 
   }

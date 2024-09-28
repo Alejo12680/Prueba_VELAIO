@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TareasService } from '../../services/tareas.service';
+
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+
+  constructor(private tareasService: TareasService) { }
+
+
+  pendientes(estado: boolean) {
+    this.tareasService.filtrarTareas(estado);
+  }
+
+  mostrarTodas() {
+    this.tareasService.mostrarTodasLasTareas();
+  }
 
 }
